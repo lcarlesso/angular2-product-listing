@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Rx';
 import { Product } from '../objects/product';
 import { Logger } from '@nsalaun/ng-logger';
 
+import { ProductSearchHelper } from '../objects/productSearchHelper';
+
 @Injectable()
 export class ProductsService {
     private baseUrl: string = 'http://localhost:4300/api';
@@ -11,18 +13,29 @@ export class ProductsService {
     constructor(private http: Http,
                 private logger: Logger) {}
 
-    getAll(sort): Observable<Product[]> {
-        this.logger.info("ProductsService.getAll(sort)", sort);
+    // TODO: [improve] write a unit test to prevent wrong url variation
+    getAll(searchCriteria:ProductSearchHelper): Observable<Product[]> {
+        this.logger.info("ProductsService.getAll(sort)", searchCriteria);
 
         var url = `${this.baseUrl}/product`;
 
-        if (sort)
-            url += `/sort/${sort}`;
+        if(searchCriteria){
+            url += "/sort";
+
+            if(searchCriteria.propCriteria &&
+                    searchCriteria.propCriteria){
+                url += `/${searchCriteria.ascDirection? 'asc': 'desc'}`;
+            }
+
+            if(searchCriteria.propCriteria)
+                url += `/${searchCriteria.propCriteria}`;
+        }
 
         let product$ = this.http
             .get(url, { headers: this.getHeaders() })
             .map(mapProducts)
             .catch(handleError);
+
         return product$;
     }
 
@@ -30,7 +43,7 @@ export class ProductsService {
         this.logger.info("ProductsService.get(id)", id);
         
         let Product$ = this.http
-            .get(`${this.baseUrl}/product/${id}`, { headers: this.getHeaders() })
+            .get(`${this.baseUrl}/product/id/${id}`, { headers: this.getHeaders() })
             .map(mapProduct);
         return Product$;
     }
@@ -51,14 +64,14 @@ function mapProducts(response: Response): Product[] {
 }
 
 function toProduct(r: any): Product {
-    let Product = <Product>({
+    let product = <Product>({
         id: r.id,
         name: r.name,
         description: r.description,
         price: r.price,
         currency: r.currency
     });
-    return Product;
+    return product;
 }
 
 function handleError(error: any) {
