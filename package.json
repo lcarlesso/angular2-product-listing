@@ -1,14 +1,11 @@
 {
-  "name": "angular-simple-ui",
+  "name": "angular2-product-listing",
   "version": "0.0.0",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "test": "ng test",
-    "pree2e": "webdriver-manager update --standalone false --gecko false",
-    "e2e": "protractor"
+    "start": "ng serve"
   },
   "private": true,
   "dependencies": {
@@ -29,7 +26,6 @@
   },
   "devDependencies": {
     "@angular/compiler-cli": "^2.3.1",
-    "@types/jasmine": "2.5.38",
     "@types/node": "^6.0.42",
     "angular-cli": "1.0.0-beta.28.3",
     "codelyzer": "~2.0.0-beta.1",

@@ -2,16 +2,29 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Product } from '../objects/product';
 
 @Pipe({
-    name: 'filterprodattr',
+    name: 'filterproductsattr',
     pure: false
 })
 export class FilterProductsByAttributes implements PipeTransform {
-    transform(items: Product[], filter: string): any {
+
+    // TODO: space for improvement on args object.
+    transform(items: Product[], args: any[]): any {
+        var filter = args['search'];
+
+        if (items == undefined) {
+            args['count'] = 0;
+            return;
+        }
+
         if (!items || !filter) {
+            args['count'] = items.length;
             return items;
         }
 
-        return items.filter(item => this.checkFilter(item, filter));
+        var filtered = items.filter(item => this.checkFilter(item, filter));
+        args['count'] = filtered.length;
+        
+        return filtered;
     }
 
     checkFilter(item, filter):boolean{        

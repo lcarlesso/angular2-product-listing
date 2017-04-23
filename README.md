@@ -9,6 +9,7 @@ Check the NodeJS API project here: https://github.com/lcarlesso/node-js-sqlite
 
 ```sh
 $ git clone https://github.com/lcarlesso/angular2-product-listing.git
+$ cd angular2-product-listing
 $ npm install 
 $ ng serve
 ```
