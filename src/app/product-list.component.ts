@@ -10,9 +10,7 @@ import { FilterSearchData } from './utils/filter.pipe';
     selector: 'product-list',
     template: `
     <div class="col-md-3">
-
         <div class="form-group">
-  
             <h3 class="page-header">Sort by</h3>
             <div class="">
                 <input class="form-control list-group-item" type="text" [ngModel]="filterSearch.search" (ngModelChange)="filterSearch.search = ($event)" />
@@ -63,7 +61,6 @@ import { FilterSearchData } from './utils/filter.pipe';
         </div>
         <div>{{filterSearch.search ? 'Your search returned' : 'Displaying'}} {{filterSearch?.count}} products!</div>
     </div>
-
   `,
     animations: [
         trigger('shrinkOut', [
@@ -84,7 +81,7 @@ export class ProductListComponent implements OnInit {
     errorMessage: string = '';
     isLoading: boolean = true;
 
-    filterSearch: FilterSearchData = <FilterSearchData>({count:0, data:''});
+    filterSearch: FilterSearchData = <FilterSearchData>({count:0, search:''});
     apiSearch: ProductSearchHelper;
 
     constructor(private productService: ProductsService, private logger: Logger) { }
