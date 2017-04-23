@@ -4,6 +4,7 @@ import { Product } from './objects/product';
 import { ProductSearchHelper } from './objects/productSearchHelper';
 import { ProductsService } from './services/products.service';
 import { Logger } from '@nsalaun/ng-logger';
+import { FilterSearchData } from './utils/filter.pipe';
 
 @Component({
     selector: 'product-list',
@@ -83,7 +84,7 @@ export class ProductListComponent implements OnInit {
     errorMessage: string = '';
     isLoading: boolean = true;
 
-    filterSearch: {search:string, count:number} = {search: "", count: 0};
+    filterSearch: FilterSearchData = <FilterSearchData>({count:0, data:''});
     apiSearch: ProductSearchHelper;
 
     constructor(private productService: ProductsService, private logger: Logger) { }

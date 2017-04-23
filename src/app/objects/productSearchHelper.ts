@@ -1,4 +1,4 @@
-// improve this
+// TODO: improve this
 export interface ProductSearchHelper{
     ascDirection: boolean;
     propCriteria: string;

@@ -7,32 +7,33 @@ import { Product } from '../objects/product';
 })
 export class FilterProductsByAttributes implements PipeTransform {
 
-    // TODO: space for improvement on args object.
-    transform(items: Product[], args: any[]): any {
-        var filter = args['search'];
-
+    transform(items: Product[], arg: FilterSearchData): any {
         if (items == undefined) {
-            args['count'] = 0;
+            arg.count = 0;
             return;
         }
 
-        if (!items || !filter) {
-            args['count'] = items.length;
+        if (!items || !arg.search) {
+            arg.count = items.length;
             return items;
         }
 
-        var filtered = items.filter(item => this.checkFilter(item, filter));
-        args['count'] = filtered.length;
-        
+        var filtered = items.filter(item => this.checkFilter(item, arg.search));
+        arg.count = filtered.length;
+
         return filtered;
     }
 
-    checkFilter(item, filter):boolean{        
-        var search = item.name + " " + item.description + " " + item.price + " " + item.currency;
-        
-        search = search.toLowerCase();
-        filter = filter.toLowerCase();
-
-        return search.indexOf(filter) !== -1;
+    checkFilter(item, filter):boolean{
+        filter = filter.toLowerCase();  
+        return item.name.toLowerCase().indexOf(filter) !== -1 || 
+                item.description.toLowerCase().indexOf(filter) !== -1 ||
+                String(item.price).indexOf(filter) !== -1 ||
+                item.currency.toLowerCase().indexOf(filter) !== -1;
     }
+}
+
+export interface FilterSearchData{
+    search: string;
+    count: number;
 }
